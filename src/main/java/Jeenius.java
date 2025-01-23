@@ -27,17 +27,65 @@ public class Jeenius {
                 markOrUnmark(storage, userInput, true);
             } else if (userInput.startsWith("unmark")){
                 markOrUnmark(storage, userInput,false);
+            } else if (userInput.startsWith("deadline")) {
+                createDeadlineTask(storage, userInput);
+            } else if (userInput.startsWith("event")) {
+                createEventTask(storage, userInput);
+            } else if (userInput.startsWith("todo")) {
+                createToDoTask(storage, userInput);
             } else {
                 Task nextInput = new Task(userInput);
                 storage.add(nextInput);
                 System.out.println("added: " + userInput);
             }
-
-            printLine();
-            System.out.println(userInput);
-            printLine();
         }
         scanner.close();
+    }
+
+    public static void createDeadlineTask(List<Task> storage, String userInput) {
+        printLine();
+        String[] desc = userInput.split(" ", 2);
+        String[] details = desc[1].split(" /by ", 2);
+        if (details.length == 2) {
+            String description = details[0];
+            String by = details[1];
+            Deadline newDeadlineTask = new Deadline(description, by);
+            storage.add(newDeadlineTask);
+            System.out.println("added: " + newDeadlineTask.toString());
+        } else {
+            System.out.println("Invalid deadline format. Use: deadline [description] /by [time]");
+        }
+        printLine();
+    }
+
+    public static void createEventTask(List<Task> storage, String userInput) {
+        printLine();
+        try {
+            String[] desc = userInput.split(" ", 2);
+            String[] details = desc[1].split(" /from ", 2);
+            String[] time = details[1].split(" /to ", 2);
+
+            String description = details[0];
+            String from = time[0];
+            String to = time[1];
+
+            Event newEventTask = new Event(description, from, to);
+            storage.add(newEventTask);
+            System.out.println("added: " + newEventTask.toString());
+        } catch (Exception e) {
+            System.out.println("Invalid event format. Use: event [description] /from [time] /to [time]");
+        }
+
+        printLine();
+    }
+
+    public static void createToDoTask(List<Task> storage, String userInput) {
+        printLine();
+        String[] desc = userInput.split(" ", 2);
+        ToDo newToDoTask = new ToDo(desc[1]);
+        storage.add(newToDoTask);
+        System.out.println("added: " + newToDoTask.toString());
+        printLine();
     }
 
     public static void printTaskList(List<Task> storage) {
@@ -46,7 +94,7 @@ public class Jeenius {
         for (int x = 0; x < storage.size(); x = x + 1) {
             int num = x + 1;
             Task input = storage.get(x);
-            System.out.println(num + input.toString());
+            System.out.println(num + "." + input.toString());
         }
         printLine();
     }
@@ -64,7 +112,7 @@ public class Jeenius {
                 task.unmark();
                 System.out.println("Marked as undone");
             }
-            System.out.println(printNumber + task.toString());
+            System.out.println(printNumber + "." + task.toString());
         } else {
             System.out.println("Invalid task number");
         }

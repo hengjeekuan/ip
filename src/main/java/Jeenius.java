@@ -8,49 +8,73 @@ public class Jeenius {
         Scanner scanner = new Scanner(System.in);
         List<Task> storage = new ArrayList<>();
 
-        System.out.println("----------------------------------------");
+        printLine();
         System.out.println("Hello! I'm Jeenius");
         System.out.println("What can I do for you today?");
-        System.out.println("----------------------------------------");
+        printLine();
 
         while (true) {
             String userInput = scanner.nextLine();
 
             if (userInput.equalsIgnoreCase("bye")) {
-                System.out.println("----------------------------------------");
+                printLine();
                 System.out.println("Bye. Hope to see you again soon!");
-                System.out.println("----------------------------------------");
+                printLine();
                 break;
             } else if (userInput.equalsIgnoreCase("list")) {
-                for (int x = 0; x < storage.size(); x = x + 1) {
-                    int num = x + 1;
-                    Task input = storage.get(x);
-                    String check = input.getStatusIcon();
-                    System.out.println(num + ".[" + check + "] "+ input.getDescription());
-                }
+                printTaskList(storage);
             } else if (userInput.startsWith("mark")){
-                String[] parts = userInput.split(" ");
-                int taskNumber = Integer.parseInt(parts[1]) - 1;
-                Task task = storage.get(taskNumber);
-                task.mark();
+                markOrUnmark(storage, userInput, true);
             } else if (userInput.startsWith("unmark")){
-                String[] parts = userInput.split(" ");
-                int taskNumber = Integer.parseInt(parts[1]) - 1;
-                Task task = storage.get(taskNumber);
-                task.unmark();
+                markOrUnmark(storage, userInput,false);
             } else {
                 Task nextInput = new Task(userInput);
                 storage.add(nextInput);
                 System.out.println("added:" + userInput);
             }
 
-
-
-
-            System.out.println("----------------------------------------");
+            printLine();
             System.out.println(userInput);
-            System.out.println("----------------------------------------");
+            printLine();
         }
         scanner.close();
+    }
+
+    public static void printTaskList(List<Task> storage) {
+        printLine();
+        System.out.println("Task List:");
+        for (int x = 0; x < storage.size(); x = x + 1) {
+            int num = x + 1;
+            Task input = storage.get(x);
+            String check = input.getStatusIcon();
+            String desc = input.getDescription();
+            System.out.println(num + ".[" + check + "] "+ desc);
+        }
+        printLine();
+    }
+
+    public static void markOrUnmark(List<Task> storage, String userInput, boolean isMark) {
+        String[] parts = userInput.split(" ");
+        int taskNumber = Integer.parseInt(parts[1]) - 1;
+        int printNumber = taskNumber + 1;
+        if (taskNumber >= 0 && taskNumber < storage.size()) {
+            Task task = storage.get(taskNumber);
+            if (isMark) {
+                task.mark();
+                System.out.println("Marked as done");
+            } else {
+                task.unmark();
+                System.out.println("Marked as undone");
+            }
+            String check = task.getStatusIcon();
+            String desc = task.getDescription();
+            System.out.println(printNumber + ".[" + check + "] "+ desc);
+        } else {
+            System.out.println("Invalid task number");
+        }
+    }
+
+    public static void printLine() {
+        System.out.println("----------------------------------------");
     }
 }

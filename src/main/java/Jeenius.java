@@ -30,7 +30,7 @@ public class Jeenius {
             } else {
                 Task nextInput = new Task(userInput);
                 storage.add(nextInput);
-                System.out.println("added:" + userInput);
+                System.out.println("added: " + userInput);
             }
 
             printLine();
@@ -46,9 +46,7 @@ public class Jeenius {
         for (int x = 0; x < storage.size(); x = x + 1) {
             int num = x + 1;
             Task input = storage.get(x);
-            String check = input.getStatusIcon();
-            String desc = input.getDescription();
-            System.out.println(num + ".[" + check + "] "+ desc);
+            System.out.println(num + input.toString());
         }
         printLine();
     }
@@ -66,9 +64,7 @@ public class Jeenius {
                 task.unmark();
                 System.out.println("Marked as undone");
             }
-            String check = task.getStatusIcon();
-            String desc = task.getDescription();
-            System.out.println(printNumber + ".[" + check + "] "+ desc);
+            System.out.println(printNumber + task.toString());
         } else {
             System.out.println("Invalid task number");
         }

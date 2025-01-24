@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,49 +18,73 @@ public class Jeenius {
         while (true) {
             String userInput = scanner.nextLine();
 
-            if (userInput.equalsIgnoreCase("bye")) {
-                printLine();
-                System.out.println("Bye. Hope to see you again soon!");
-                printLine();
-                break;
-            } else if (userInput.equalsIgnoreCase("list")) {
-                printTaskList(storage);
-            } else if (userInput.startsWith("mark")){
-                markOrUnmark(storage, userInput, true);
-            } else if (userInput.startsWith("unmark")){
-                markOrUnmark(storage, userInput,false);
-            } else if (userInput.startsWith("deadline")) {
-                createDeadlineTask(storage, userInput);
-            } else if (userInput.startsWith("event")) {
-                createEventTask(storage, userInput);
-            } else if (userInput.startsWith("todo")) {
-                createToDoTask(storage, userInput);
-            } else {
-                Task nextInput = new Task(userInput);
-                storage.add(nextInput);
-                System.out.println("added: " + userInput);
+            try {
+                if (userInput.trim().isEmpty()) {
+                    throw new JeeniusException("stop pressing enter without typing anything");
+                } else if (userInput.equalsIgnoreCase("bye")) {
+                    printLine();
+                    System.out.println("Bye. Hope to see you again soon!");
+                    printLine();
+                    break;
+                } else if (userInput.equalsIgnoreCase("list")) {
+                    printTaskList(storage);
+                } else if (userInput.startsWith("mark")){
+                    try {
+                        markOrUnmark(storage, userInput, true);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else if (userInput.startsWith("unmark")){
+                    try {
+                        markOrUnmark(storage, userInput,false);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else if (userInput.startsWith("deadline")) {
+                    try {
+                        createDeadlineTask(storage, userInput);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else if (userInput.startsWith("event")) {
+                    try {
+                        createEventTask(storage, userInput);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else if (userInput.startsWith("todo")) {
+                    try {
+                        createToDoTask(storage, userInput);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else {
+                    throw new JeeniusException("sorry. i'm not that smart. i have limited available commands");
+                }
+            } catch (JeeniusException e) {
+                System.out.println(e.getMessage());
             }
         }
         scanner.close();
     }
 
-    public static void createDeadlineTask(List<Task> storage, String userInput) {
+    public static void createDeadlineTask(List<Task> storage, String userInput) throws JeeniusException {
         printLine();
-        String[] desc = userInput.split(" ", 2);
-        String[] details = desc[1].split(" /by ", 2);
-        if (details.length == 2) {
+        try {
+            String[] desc = userInput.split(" ", 2);
+            String[] details = desc[1].split(" /by ", 2);
             String description = details[0];
             String by = details[1];
             Deadline newDeadlineTask = new Deadline(description, by);
             storage.add(newDeadlineTask);
             System.out.println("added: " + newDeadlineTask.toString());
-        } else {
-            System.out.println("Invalid deadline format. Use: deadline [description] /by [time]");
+        } catch (Exception e){
+                throw new JeeniusException("??? deadline tasks needs to be like this: deadline [task] /by [time]");
         }
         printLine();
     }
 
-    public static void createEventTask(List<Task> storage, String userInput) {
+    public static void createEventTask(List<Task> storage, String userInput) throws JeeniusException {
         printLine();
         try {
             String[] desc = userInput.split(" ", 2);
@@ -73,16 +99,23 @@ public class Jeenius {
             storage.add(newEventTask);
             System.out.println("added: " + newEventTask.toString());
         } catch (Exception e) {
-            System.out.println("Invalid event format. Use: event [description] /from [time] /to [time]");
+            throw new JeeniusException("YOU JEENIUS! use this: event [description] /from [time] /to [time]");
         }
 
         printLine();
     }
 
-    public static void createToDoTask(List<Task> storage, String userInput) {
+    public static void createToDoTask(List<Task> storage, String userInput) throws JeeniusException {
         printLine();
-        String[] desc = userInput.split(" ", 2);
-        ToDo newToDoTask = new ToDo(desc[1]);
+
+        ToDo newToDoTask = null;
+
+        try {
+            String[] desc = userInput.split(" ", 2);
+            newToDoTask = new ToDo(desc[1]);
+        } catch (Exception e) {
+            throw new JeeniusException("bro how do you todo nothing??? ADD A DESCRIPTION FOR YOUR TODO");
+        }
         storage.add(newToDoTask);
         System.out.println("added: " + newToDoTask.toString());
         printLine();
@@ -99,11 +132,13 @@ public class Jeenius {
         printLine();
     }
 
-    public static void markOrUnmark(List<Task> storage, String userInput, boolean isMark) {
+    public static void markOrUnmark(List<Task> storage, String userInput, boolean isMark) throws JeeniusException {
         String[] parts = userInput.split(" ");
         int taskNumber = Integer.parseInt(parts[1]) - 1;
         int printNumber = taskNumber + 1;
-        if (taskNumber >= 0 && taskNumber < storage.size()) {
+        if (parts.length < 2 || parts[1].isEmpty() || !parts[1].matches("\\d+")){
+            throw new JeeniusException("... wrong format bruh. use: mark/unmark [task number");
+        } else if (taskNumber >= 0 && taskNumber < storage.size()) {
             Task task = storage.get(taskNumber);
             if (isMark) {
                 task.mark();
@@ -114,7 +149,7 @@ public class Jeenius {
             }
             System.out.println(printNumber + "." + task.toString());
         } else {
-            System.out.println("Invalid task number");
+            throw new JeeniusException("to mark or to unmark the number has to be within the list innit?");
         }
     }
 

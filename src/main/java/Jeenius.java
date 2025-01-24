@@ -58,6 +58,12 @@ public class Jeenius {
                     } catch (JeeniusException e) {
                         System.out.println(e.getMessage());
                     }
+                } else if (userInput.startsWith("delete")) {
+                    try {
+                        delete(storage, userInput);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
                 } else {
                     throw new JeeniusException("sorry. i'm not that smart. i have limited available commands");
                 }
@@ -66,6 +72,19 @@ public class Jeenius {
             }
         }
         scanner.close();
+    }
+
+    public static void delete(List<Task> storage, String userInput) throws JeeniusException {
+        printLine();
+        try {
+            String[] parts = userInput.split(" ");
+            int taskNumber = Integer.parseInt(parts[1]) - 1;
+            Task task = storage.get(taskNumber);
+            storage.remove(taskNumber);
+            System.out.println("deleted: " + task.toString());
+        } catch (Exception e) {
+            throw new JeeniusException("can't even delete a task properly? use: delete [task number]");
+        }
     }
 
     public static void createDeadlineTask(List<Task> storage, String userInput) throws JeeniusException {

@@ -1,4 +1,7 @@
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Executable;
 import java.util.ArrayList;
@@ -13,6 +16,8 @@ public class Jeenius {
         if (!folder.exists()) {
             folder.mkdir();
         }
+        String filePath = "./data/Jeenius.txt";
+        File file = new File(filePath);
         List<Task> storage = new ArrayList<>();
 
         printLine();
@@ -77,6 +82,18 @@ public class Jeenius {
             }
         }
         scanner.close();
+    }
+
+    public static void saveTasks(List<Task> storage, String filePath) throws JeeniusException {
+        printLine();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (Task task : storage) {
+                writer.write(task.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new JeeniusException("haha file doesn't exist");
+        }
     }
 
     public static void delete(List<Task> storage, String userInput) throws JeeniusException {

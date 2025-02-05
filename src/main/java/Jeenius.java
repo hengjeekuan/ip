@@ -1,3 +1,4 @@
+import java.io.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.Executable;
 import java.util.ArrayList;
@@ -7,8 +8,20 @@ import java.util.Scanner;
 
 public class Jeenius {
     public static void main(String[] args) {
+
+        File folder = new File("./data");
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        String filePath = "./data/Jeenius.txt";
+        List<Task> storage;
+        try {
+            storage = loadTasks(filePath);
+        } catch (JeeniusException e) {
+            System.out.println(e.getMessage());
+            storage = new ArrayList<>();
+        }
         Scanner scanner = new Scanner(System.in);
-        List<Task> storage = new ArrayList<>();
 
         printLine();
         System.out.println("Hello! I'm Jeenius");
@@ -74,6 +87,63 @@ public class Jeenius {
         scanner.close();
     }
 
+    static String filePath = "./data/Jeenius.txt";
+
+    public static List<Task> loadTasks(String filePath) throws JeeniusException {
+        List<Task> storage = new ArrayList<>();
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            return storage;
+        }
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String userInput = scanner.nextLine();
+                if (userInput.startsWith("deadline")) {
+                    try {
+                        userInput = userInput.replaceAll("]", "");
+                        userInput = userInput.trim();
+                        createDeadlineTask(storage, userInput);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else if (userInput.startsWith("[E]")) {
+                    try {
+                        userInput = userInput.replaceAll("]", "");
+                        userInput = userInput.trim();
+                        createEventTask(storage, userInput);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else if (userInput.startsWith("[T]")) {
+                    try {
+                        userInput = userInput.replaceAll("]", "");
+                        userInput = userInput.trim();
+                        createToDoTask(storage, userInput);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            throw new JeeniusException("haha file not found");
+        }
+        return storage;
+    }
+
+    public static void saveTasks(List<Task> storage, String filePath) throws JeeniusException {
+        printLine();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (Task task : storage) {
+                writer.write(task.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new JeeniusException("haha file doesn't exist");
+        }
+    }
+
     public static void delete(List<Task> storage, String userInput) throws JeeniusException {
         printLine();
         try {
@@ -81,6 +151,7 @@ public class Jeenius {
             int taskNumber = Integer.parseInt(parts[1]) - 1;
             Task task = storage.get(taskNumber);
             storage.remove(taskNumber);
+            saveTasks(storage, filePath);
             System.out.println("deleted: " + task.toString());
         } catch (Exception e) {
             throw new JeeniusException("can't even delete a task properly? use: delete [task number]");
@@ -96,6 +167,7 @@ public class Jeenius {
             String by = details[1];
             Deadline newDeadlineTask = new Deadline(description, by);
             storage.add(newDeadlineTask);
+            saveTasks(storage, filePath);
             System.out.println("added: " + newDeadlineTask.toString());
         } catch (Exception e){
                 throw new JeeniusException("??? deadline tasks needs to be like this: deadline [task] /by [time]");
@@ -116,6 +188,7 @@ public class Jeenius {
 
             Event newEventTask = new Event(description, from, to);
             storage.add(newEventTask);
+            saveTasks(storage, filePath);
             System.out.println("added: " + newEventTask.toString());
         } catch (Exception e) {
             throw new JeeniusException("YOU JEENIUS! use this: event [description] /from [time] /to [time]");
@@ -132,11 +205,13 @@ public class Jeenius {
         try {
             String[] desc = userInput.split(" ", 2);
             newToDoTask = new ToDo(desc[1]);
+            storage.add(newToDoTask);
+            saveTasks(storage, filePath);
+            System.out.println("added: " + newToDoTask.toString());
         } catch (Exception e) {
             throw new JeeniusException("bro how do you todo nothing??? ADD A DESCRIPTION FOR YOUR TODO");
         }
-        storage.add(newToDoTask);
-        System.out.println("added: " + newToDoTask.toString());
+
         printLine();
     }
 
@@ -161,9 +236,11 @@ public class Jeenius {
             Task task = storage.get(taskNumber);
             if (isMark) {
                 task.mark();
+                saveTasks(storage, filePath);
                 System.out.println("Marked as done");
             } else {
                 task.unmark();
+                saveTasks(storage, filePath);
                 System.out.println("Marked as undone");
             }
             System.out.println(printNumber + "." + task.toString());

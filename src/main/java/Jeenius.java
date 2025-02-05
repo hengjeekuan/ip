@@ -1,3 +1,4 @@
+import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Executable;
 import java.util.ArrayList;
@@ -8,6 +9,10 @@ import java.util.Scanner;
 public class Jeenius {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        File folder = new File("./data");
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
         List<Task> storage = new ArrayList<>();
 
         printLine();

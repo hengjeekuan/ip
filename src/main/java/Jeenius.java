@@ -1,6 +1,7 @@
 import java.io.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.Executable;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -186,7 +187,7 @@ public class Jeenius {
             saveTasks(storage, filePath);
             System.out.println("added: " + newDeadlineTask.toString());
         } catch (Exception e){
-                throw new JeeniusException("??? deadline tasks needs to be like this: deadline [task] /by [time]");
+                throw new JeeniusException("??? deadline tasks needs to be like this: deadline [task] /by [d/M/yyyy HHmm]");
         }
         printLine();
     }
@@ -207,7 +208,7 @@ public class Jeenius {
             saveTasks(storage, filePath);
             System.out.println("added: " + newEventTask.toString());
         } catch (Exception e) {
-            throw new JeeniusException("YOU JEENIUS! use this: event [description] /from [time] /to [time]");
+            throw new JeeniusException("YOU JEENIUS! use this: event [description] /from [d/M/yyyy HHmm] /to [d/M/yyyy HHmm]");
         }
 
         printLine();

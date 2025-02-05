@@ -13,12 +13,12 @@ public class Event extends Task {
     }
 
     public String getFrom() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
         return from.format(formatter);
     }
 
     public String getTo() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
         return to.format(formatter);
     }
 

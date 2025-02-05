@@ -11,7 +11,7 @@ public class Deadline extends Task {
     }
 
     public String getBy() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
         return by.format(formatter);
     }
 

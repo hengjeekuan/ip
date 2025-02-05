@@ -84,6 +84,8 @@ public class Jeenius {
         scanner.close();
     }
 
+    static String filePath = "./data/Jeenius.txt";
+
     public static void saveTasks(List<Task> storage, String filePath) throws JeeniusException {
         printLine();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
@@ -103,6 +105,7 @@ public class Jeenius {
             int taskNumber = Integer.parseInt(parts[1]) - 1;
             Task task = storage.get(taskNumber);
             storage.remove(taskNumber);
+            saveTasks(storage, filePath);
             System.out.println("deleted: " + task.toString());
         } catch (Exception e) {
             throw new JeeniusException("can't even delete a task properly? use: delete [task number]");
@@ -118,6 +121,7 @@ public class Jeenius {
             String by = details[1];
             Deadline newDeadlineTask = new Deadline(description, by);
             storage.add(newDeadlineTask);
+            saveTasks(storage, filePath);
             System.out.println("added: " + newDeadlineTask.toString());
         } catch (Exception e){
                 throw new JeeniusException("??? deadline tasks needs to be like this: deadline [task] /by [time]");
@@ -138,6 +142,7 @@ public class Jeenius {
 
             Event newEventTask = new Event(description, from, to);
             storage.add(newEventTask);
+            saveTasks(storage, filePath);
             System.out.println("added: " + newEventTask.toString());
         } catch (Exception e) {
             throw new JeeniusException("YOU JEENIUS! use this: event [description] /from [time] /to [time]");
@@ -154,11 +159,13 @@ public class Jeenius {
         try {
             String[] desc = userInput.split(" ", 2);
             newToDoTask = new ToDo(desc[1]);
+            storage.add(newToDoTask);
+            saveTasks(storage, filePath);
+            System.out.println("added: " + newToDoTask.toString());
         } catch (Exception e) {
             throw new JeeniusException("bro how do you todo nothing??? ADD A DESCRIPTION FOR YOUR TODO");
         }
-        storage.add(newToDoTask);
-        System.out.println("added: " + newToDoTask.toString());
+
         printLine();
     }
 
@@ -183,9 +190,11 @@ public class Jeenius {
             Task task = storage.get(taskNumber);
             if (isMark) {
                 task.mark();
+                saveTasks(storage, filePath);
                 System.out.println("Marked as done");
             } else {
                 task.unmark();
+                saveTasks(storage, filePath);
                 System.out.println("Marked as undone");
             }
             System.out.println(printNumber + "." + task.toString());

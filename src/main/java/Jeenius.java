@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.Executable;
 import java.util.ArrayList;
@@ -11,14 +8,20 @@ import java.util.Scanner;
 
 public class Jeenius {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+
         File folder = new File("./data");
         if (!folder.exists()) {
             folder.mkdir();
         }
         String filePath = "./data/Jeenius.txt";
-        File file = new File(filePath);
-        List<Task> storage = new ArrayList<>();
+        List<Task> storage;
+        try {
+            storage = loadTasks(filePath);
+        } catch (JeeniusException e) {
+            System.out.println(e.getMessage());
+            storage = new ArrayList<>();
+        }
+        Scanner scanner = new Scanner(System.in);
 
         printLine();
         System.out.println("Hello! I'm Jeenius");
@@ -85,6 +88,49 @@ public class Jeenius {
     }
 
     static String filePath = "./data/Jeenius.txt";
+
+    public static List<Task> loadTasks(String filePath) throws JeeniusException {
+        List<Task> storage = new ArrayList<>();
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            return storage;
+        }
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String userInput = scanner.nextLine();
+                if (userInput.startsWith("deadline")) {
+                    try {
+                        userInput = userInput.replaceAll("]", "");
+                        userInput = userInput.trim();
+                        createDeadlineTask(storage, userInput);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else if (userInput.startsWith("[E]")) {
+                    try {
+                        userInput = userInput.replaceAll("]", "");
+                        userInput = userInput.trim();
+                        createEventTask(storage, userInput);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } else if (userInput.startsWith("[T]")) {
+                    try {
+                        userInput = userInput.replaceAll("]", "");
+                        userInput = userInput.trim();
+                        createToDoTask(storage, userInput);
+                    } catch (JeeniusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            throw new JeeniusException("haha file not found");
+        }
+        return storage;
+    }
 
     public static void saveTasks(List<Task> storage, String filePath) throws JeeniusException {
         printLine();

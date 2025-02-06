@@ -1,4 +1,4 @@
-# Jeenius User Guide
+# jeenius.jeenius User Guide
 
 // Update the title above to match the actual product name
 

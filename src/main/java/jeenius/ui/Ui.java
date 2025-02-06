@@ -1,3 +1,7 @@
+package jeenius.ui;
+
+import jeenius.task.Task;
+
 import java.util.List;
 
 public class Ui {

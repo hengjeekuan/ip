@@ -1,5 +1,16 @@
+package jeenius.command;
+
+import jeenius.exception.JeeniusException;
+import jeenius.list.TaskList;
+import jeenius.storage.Storage;
+import jeenius.task.Deadline;
+import jeenius.task.Event;
+import jeenius.task.Task;
+import jeenius.task.ToDo;
+import jeenius.ui.Ui;
+
 public class Parser {
-    public void parse(String input, TaskList tasks, Ui ui, Storage storage) throws JeeniusException{
+    public void parse(String input, TaskList tasks, Ui ui, Storage storage) throws JeeniusException {
         if (input.trim().isEmpty()) {
             throw new JeeniusException("stop pressing enter without typing anything!");
         } else if (input.equalsIgnoreCase("bye")) {

@@ -1,6 +1,12 @@
-import java.io.*;
+package jeenius;
+
+import jeenius.command.Parser;
+import jeenius.exception.JeeniusException;
+import jeenius.list.TaskList;
+import jeenius.storage.Storage;
+import jeenius.ui.Ui;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 

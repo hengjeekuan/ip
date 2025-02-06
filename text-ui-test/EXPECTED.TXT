@@ -1,19 +1,19 @@
 ----------------------------------------
-Hello! I'm Jeenius
+Hello! I'm jeenius.jeenius
 What can I do for you today?
 ----------------------------------------
 ----------------------------------------
 added: [T][ ] borrow book
 ----------------------------------------
 ----------------------------------------
-Task List:
+jeenius.task.Task List:
 1.[T][ ] borrow book
 ----------------------------------------
 ----------------------------------------
 added: [D][ ] return book (by: Sunday)
 ----------------------------------------
 ----------------------------------------
-Task List:
+jeenius.task.Task List:
 1.[T][ ] borrow book
 2.[D][ ] return book (by: Sunday)
 ----------------------------------------
@@ -21,7 +21,7 @@ Task List:
 added: [E][ ] project meeting (from: Mon 2pm to: 4pm)
 ----------------------------------------
 ----------------------------------------
-Task List:
+jeenius.task.Task List:
 1.[T][ ] borrow book
 2.[D][ ] return book (by: Sunday)
 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)

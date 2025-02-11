@@ -30,22 +30,12 @@ public class Deadline extends Task {
         return by.format(formatter);
     }
 
-    /**
-     * Returns a string representation of the Deadline task,
-     * including its type identifier and completion status
-     *
-     * @return A formatted string representing the Deadline task.
-     */
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + by + ")";
     }
 
-    /**
-     * Converts the Deadline task into a standardized format for file storage.
-     *
-     * @return A string representing the Deadline task in file format storage
-     */
+    @Override
     public String toFileFormat() {
         return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + getBy();
     }

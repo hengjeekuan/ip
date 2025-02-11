@@ -15,22 +15,13 @@ public class ToDo extends Task {
         super(description);
     }
 
-    /**
-     * Returns a string representation of the ToDo task,
-     * including its type identifier and completion status
-     *
-     * @return A formatted string representing the ToDo task.
-     */
+
     @Override
     public String toString() {
         return "[T]" + super.toString();
     }
 
-    /**
-     * Converts the ToDo task into a standardized format for file storage.
-     *
-     * @return A string representing the ToDo task in file format storage
-     */
+
     @Override
     public String toFileFormat() {
         return "T | " + (isDone ? "1" : "0") + " | " + description;

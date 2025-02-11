@@ -38,22 +38,12 @@ public class Event extends Task {
         return to.format(formatter);
     }
 
-    /**
-     * Returns a string representation of the Event task,
-     * including its type identifier and completion status
-     *
-     * @return A formatted string representing the Event task.
-     */
     @Override
     public String toString() {
         return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
     }
 
-    /**
-     * Converts the Event task into a standardized format for file storage.
-     *
-     * @return A string representing the Event task in file format storage
-     */
+    @Override
     public String toFileFormat() {
         return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + getFrom() + " | " + getTo();
     }

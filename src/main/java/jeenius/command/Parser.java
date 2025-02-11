@@ -1,5 +1,6 @@
 package jeenius.command;
 
+import jeenius.Jeenius;
 import jeenius.exception.JeeniusException;
 import jeenius.list.TaskList;
 import jeenius.storage.Storage;
@@ -98,6 +99,24 @@ public class Parser {
                 storage.save(tasks.getTasks());
             } catch (Exception e) {
                 throw new JeeniusException("Failed to mark/unmark. Use: mark/unmark [task number]");
+            }
+        } else if (input.startsWith("find")){
+            try {
+                String[] parts = input.split(" ", 2);
+                if (parts.length < 2) {
+                    throw new JeeniusException("bro what am i supposed to find? enter a keyword");
+                }
+                String keyword = parts[1];
+                ui.printLine();
+                System.out.println("these are your matching tasks in your list:");
+                int index = 1;
+                for (Task task : tasks.findTasks(keyword)) {
+                    System.out.println(index + ". " + task);
+                    index++;
+                }
+                ui.printLine();
+            } catch (Exception e) {
+                throw new JeeniusException("finding is easy, just use: find [keyword]");
             }
         } else {
             throw new JeeniusException("sorry. i'm not that smart. i have limited available commands");

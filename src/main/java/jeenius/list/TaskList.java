@@ -20,6 +20,16 @@ public class TaskList {
         this.tasks = tasks != null ? tasks : new ArrayList<>();
     }
 
+    public List<Task> findTasks(String keyword) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
+
     public List<Task> getTasks() {
         return tasks;
     }

@@ -9,7 +9,19 @@ import jeenius.task.Task;
 import jeenius.task.ToDo;
 import jeenius.ui.Ui;
 
+/**
+ * Parses user input and executes the corresponding command.
+ */
 public class Parser {
+    /**
+     * Processes the user input and performs the necessary operations.
+     *
+     * @param input The user's command as a string.
+     * @param tasks The task list that stores all task.
+     * @param ui The user interface for displaying messages.
+     * @param storage The storage handler for saving and loading tasks.
+     * @throws JeeniusException If the user input is invalid or cannot be processed.
+     */
     public void parse(String input, TaskList tasks, Ui ui, Storage storage) throws JeeniusException {
         if (input.trim().isEmpty()) {
             throw new JeeniusException("stop pressing enter without typing anything!");

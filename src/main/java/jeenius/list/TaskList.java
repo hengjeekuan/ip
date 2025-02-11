@@ -24,7 +24,7 @@ public class TaskList {
         tasks.remove(index);
     }
 
-    public Task getTask(int index) {
+    public Task getSize(int index) {
         return tasks.get(index);
     }
 

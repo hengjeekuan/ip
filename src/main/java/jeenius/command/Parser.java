@@ -28,7 +28,7 @@ public class Parser {
             try {
                 String[] parts = input.split(" ");
                 int taskNumber = Integer.parseInt(parts[1]) - 1;
-                Task task = tasks.getTask(taskNumber);
+                Task task = tasks.getSize(taskNumber);
                 tasks.deleteTask(taskNumber);
                 storage.save(tasks.getTasks());
                 ui.printLine();
@@ -73,7 +73,7 @@ public class Parser {
                 int taskNumber = Integer.parseInt(parts[1]) - 1;
                 boolean isMark = input.startsWith("mark");
 
-                Task task = tasks.getTask(taskNumber);
+                Task task = tasks.getSize(taskNumber);
                 if (isMark) {
                     task.mark();
                     System.out.println("Marked as done: " + task);

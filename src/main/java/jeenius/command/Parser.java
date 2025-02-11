@@ -31,7 +31,9 @@ public class Parser {
             ui.printTaskList(tasks.getTasks());
         } else if (input.startsWith("todo")) {
             String[] parts = input.split(" ", 2);
-            if (parts.length < 2) throw new JeeniusException("bro how do you todo nothing??? ADD A DESCRIPTION FOR YOUR TODO");
+            if (parts.length < 2) {
+                throw new JeeniusException("bro how do you todo nothing??? ADD A DESCRIPTION FOR YOUR TODO");
+            }
             ToDo todo = new ToDo(parts[1]);
             tasks.addTask(todo);
             storage.save(tasks.getTasks());
@@ -40,7 +42,7 @@ public class Parser {
             try {
                 String[] parts = input.split(" ");
                 int taskNumber = Integer.parseInt(parts[1]) - 1;
-                Task task = tasks.getTask(taskNumber);
+                Task task = tasks.getSize(taskNumber);
                 tasks.deleteTask(taskNumber);
                 storage.save(tasks.getTasks());
                 ui.printLine();
@@ -85,7 +87,7 @@ public class Parser {
                 int taskNumber = Integer.parseInt(parts[1]) - 1;
                 boolean isMark = input.startsWith("mark");
 
-                Task task = tasks.getTask(taskNumber);
+                Task task = tasks.getSize(taskNumber);
                 if (isMark) {
                     task.mark();
                     System.out.println("Marked as done: " + task);

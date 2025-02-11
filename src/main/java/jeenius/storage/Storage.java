@@ -46,17 +46,17 @@ public class Storage {
                 String description = parts[2].trim();
 
                 switch (taskType) {
-                    case "D":
-                        tasks.add(new Deadline(description, parts[3].trim()));
-                        break;
-                    case "E":
-                        tasks.add(new Event(description, parts[3].trim(), parts[4].trim()));
-                        break;
-                    case "T":
-                        tasks.add(new ToDo(description));
-                        break;
-                    default:
-                        throw new JeeniusException("unknown task type in file.");
+                case "D":
+                    tasks.add(new Deadline(description, parts[3].trim()));
+                    break;
+                case "E":
+                    tasks.add(new Event(description, parts[3].trim(), parts[4].trim()));
+                    break;
+                case "T":
+                    tasks.add(new ToDo(description));
+                    break;
+                default:
+                    throw new JeeniusException("unknown task type in file.");
                 }
             }
         } catch (IOException e) {

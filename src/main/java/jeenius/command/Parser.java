@@ -19,7 +19,9 @@ public class Parser {
             ui.printTaskList(tasks.getTasks());
         } else if (input.startsWith("todo")) {
             String[] parts = input.split(" ", 2);
-            if (parts.length < 2) throw new JeeniusException("bro how do you todo nothing??? ADD A DESCRIPTION FOR YOUR TODO");
+            if (parts.length < 2) {
+                throw new JeeniusException("bro how do you todo nothing??? ADD A DESCRIPTION FOR YOUR TODO");
+            }
             ToDo todo = new ToDo(parts[1]);
             tasks.addTask(todo);
             storage.save(tasks.getTasks());

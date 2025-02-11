@@ -17,7 +17,7 @@ public abstract class Task {
         return this.description;
     }
 
-    public Boolean getDone() {
+    public Boolean isDone() {
         return isDone;
     }
 

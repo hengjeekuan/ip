@@ -4,6 +4,7 @@ import jeenius.command.Parser;
 import jeenius.exception.JeeniusException;
 import jeenius.list.TaskList;
 import jeenius.storage.Storage;
+import jeenius.task.Task;
 import jeenius.ui.Ui;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Jeenius {
             loadedTasks = new TaskList(storage.load());
         } catch (JeeniusException e) {
             ui.printError(e.getMessage());
-            loadedTasks = new TaskList(new ArrayList<>());
+            loadedTasks = new TaskList(new ArrayList<Task>());
         }
         this.tasks = loadedTasks;
     }

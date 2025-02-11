@@ -23,6 +23,6 @@ public class Deadline extends Task {
     }
 
     public String toFileFormat() {
-        return "T | " + (isDone ? "1" : "0") + " | " + description + " | " + getBy();
+        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + getBy();
     }
 }

@@ -30,6 +30,6 @@ public class Event extends Task {
     }
 
     public String toFileFormat() {
-        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + getFrom() + " | " + getTo();
+        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + getFrom() + " | " + getTo();
     }
 }

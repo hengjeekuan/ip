@@ -1,8 +1,8 @@
 package jeenius.ui;
 
-import jeenius.task.Task;
-
 import java.util.List;
+
+import jeenius.task.Task;
 
 /**
  * Handles user interactions by displaying messages and formatting outputs.

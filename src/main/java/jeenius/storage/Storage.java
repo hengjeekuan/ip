@@ -1,15 +1,18 @@
 package jeenius.storage;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import jeenius.exception.JeeniusException;
 import jeenius.task.Deadline;
 import jeenius.task.Event;
 import jeenius.task.Task;
 import jeenius.task.ToDo;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * Handles reading from and writing to the storage file.

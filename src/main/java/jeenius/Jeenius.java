@@ -1,14 +1,14 @@
 package jeenius;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import jeenius.command.Parser;
 import jeenius.exception.JeeniusException;
 import jeenius.list.TaskList;
 import jeenius.storage.Storage;
 import jeenius.task.Task;
 import jeenius.ui.Ui;
-
-import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * The main class for the Jeenius application.

@@ -1,9 +1,9 @@
 package jeenius.list;
 
-import jeenius.task.Task;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import jeenius.task.Task;
 
 /**
  * Manages a list of tasks, providing operations to add, delete, and retrieve tasks.
@@ -19,7 +19,12 @@ public class TaskList {
     public TaskList(List<Task> tasks) {
         this.tasks = tasks != null ? tasks : new ArrayList<>();
     }
-
+    /**
+    * Finds and returns a list of tasks that contain the specified keyword.
+    *
+    * @param keyword The keyword to search for within task descriptions.
+    * @return A list of tasks that contain the given keyword (case-insensitive).
+    */
     public List<Task> findTasks(String keyword) {
         List<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {

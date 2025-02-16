@@ -1,6 +1,5 @@
 package jeenius.command;
 
-import jeenius.Jeenius;
 import jeenius.exception.JeeniusException;
 import jeenius.list.TaskList;
 import jeenius.storage.Storage;
@@ -63,7 +62,8 @@ public class Parser {
                 System.out.println("added: " + deadline);
                 ui.printLine();
             } catch (Exception e) {
-                throw new JeeniusException("??? deadline tasks need to be like this: deadline [task] /by [d/M/yyyy HHmm]");
+                throw new JeeniusException("??? deadline tasks need to be like this: "
+                                            + "deadline [task] /by [d/M/yyyy HHmm]");
             }
         } else if (input.startsWith("event")) {
             try {
@@ -77,7 +77,8 @@ public class Parser {
                 System.out.println("added: " + event);
                 ui.printLine();
             } catch (Exception e) {
-                throw new JeeniusException("YOU JEENIUS! use this: event [description] /from [d/M/yyyy HHmm] /to [d/M/yyyy HHmm]");
+                throw new JeeniusException("YOU JEENIUS! use this: "
+                                            + "event [description] /from [d/M/yyyy HHmm] /to [d/M/yyyy HHmm]");
             }
         } else if (input.startsWith("mark") || input.startsWith("unmark")) {
             try {
@@ -100,7 +101,7 @@ public class Parser {
             } catch (Exception e) {
                 throw new JeeniusException("Failed to mark/unmark. Use: mark/unmark [task number]");
             }
-        } else if (input.startsWith("find")){
+        } else if (input.startsWith("find")) {
             try {
                 String[] parts = input.split(" ", 2);
                 if (parts.length < 2) {

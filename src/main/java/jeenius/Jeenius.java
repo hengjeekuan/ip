@@ -10,16 +10,18 @@ import jeenius.storage.Storage;
 import jeenius.task.Task;
 import jeenius.ui.Ui;
 
+
+
 /**
  * The main class for the Jeenius application.
  * Initializes the necessary components and handles user interactions.
  */
 public class Jeenius {
+    private static final String DEFAULT_FILE_PATH = "data/Jeenius.txt";
     private final Storage storage;
     private final Ui ui;
     private final TaskList tasks;
     private final Parser parser;
-
     /**
      * Creates an instance of Jeenius with the specified storage file path.
      * @param filePath The file path for storing tasks.
@@ -36,6 +38,10 @@ public class Jeenius {
             loadedTasks = new TaskList(new ArrayList<Task>());
         }
         this.tasks = loadedTasks;
+    }
+
+    public Jeenius() {
+        this(DEFAULT_FILE_PATH);
     }
 
     /**
@@ -58,7 +64,6 @@ public class Jeenius {
             }
         }
     }
-
     /**
      * The main entry point of the Jeenius application.
      *
@@ -68,5 +73,11 @@ public class Jeenius {
         new Jeenius("data/Jeenius.txt").run();
     }
 
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        return "Duke heard: " + input;
+    }
 
 }

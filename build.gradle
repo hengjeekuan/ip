@@ -49,8 +49,17 @@ test {
 
 application {
     // mainClass.set("seedu.duke.Duke")
-    mainClass.set("jeenius.Jeenius")
+    mainClass = "jeenius.Launcher"
 }
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/resources"]
+        }
+    }
+}
+
 
 shadowJar {
     archiveBaseName = "jeenius"

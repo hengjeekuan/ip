@@ -95,8 +95,8 @@ public class Main extends Application {
         String userText = userInput.getText();
         String jeeniusText = jeenius.getResponse(userInput.getText());
         dialogContainer.getChildren().addAll(
-                new DialogBox(userInput.getText(), userImage),
-                new DialogBox(jeeniusText, dukeImage)
+                DialogBox.getUserDialog(userInput.getText(), userImage),
+                DialogBox.getJeeniusDialog(jeeniusText, dukeImage)
         );
         userInput.clear();
     }

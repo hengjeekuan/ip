@@ -23,7 +23,7 @@ public class MainWindow extends AnchorPane {
     private Jeenius jeenius;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/IMG_0134.JPG"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/IMG_2354.JPG"));
+    private Image jeeniusImage = new Image(this.getClass().getResourceAsStream("/images/IMG_2354.JPG"));
 
     @FXML
     public void initialize() {
@@ -31,7 +31,7 @@ public class MainWindow extends AnchorPane {
     }
 
     /** Injects the Jeenius instance */
-    public void setDuke(Jeenius j) {
+    public void setJeenius(Jeenius j) {
         jeenius = j;
     }
 
@@ -41,11 +41,14 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
-        String input = userInput.getText();
+        String input = userInput.getText().trim();
+        if (input.isEmpty()) {
+            return;
+        }
         String response = jeenius.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getJeeniusDialog(response, dukeImage)
+                DialogBox.getJeeniusDialog(response, jeeniusImage)
         );
         userInput.clear();
     }

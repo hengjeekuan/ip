@@ -1,6 +1,7 @@
 package jeenius;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import jeenius.command.Parser;
@@ -27,7 +28,7 @@ public class Jeenius {
      * @param filePath The file path for storing tasks.
      */
     public Jeenius(String filePath) {
-        assert filepath != null && !filePath.isEmpty() : "File path must not be null or empty";
+        assert filePath != null && !filePath.isEmpty() : "File path must not be null or empty";
         this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.parser = new Parser();
@@ -48,6 +49,10 @@ public class Jeenius {
 
     public Jeenius() {
         this(DEFAULT_FILE_PATH);
+    }
+
+    public Parser getParser() {
+        return this.parser;
     }
 
     /**
@@ -87,7 +92,26 @@ public class Jeenius {
      */
     public String getResponse(String input) {
         assert input != null : "User input should not be null";
-        return "Duke heard: " + input;
+
+        try {
+            if (input.equalsIgnoreCase("list")) {
+                StringBuilder response = new StringBuilder("Here are your tasks:\n");
+                List<Task> taskList = tasks.getTasks();
+                if (taskList.isEmpty()) {
+                    response.append("Your task list is empty!");
+                } else {
+                    for (int i = 0; i < taskList.size(); i++) {
+                        response.append((i + 1)).append(". ").append(taskList.get(i)).append("\n");
+                    }
+                }
+                return response.toString();
+            }
+
+            return parser.parse(input, tasks, ui, storage);
+
+        } catch (JeeniusException e) {
+            return e.getMessage();
+        }
     }
 
 }

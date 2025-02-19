@@ -11,27 +11,22 @@ public class Ui {
     /**
      * Prints the welcome message at the start of the application,
      */
-    public void printWelcomeMessage() {
-        printLine();
-        System.out.println("Hello! I'm Jeenius");
-        System.out.println("What can I do for you today?");
-        printLine();
+    public String printWelcomeMessage() {
+        return getDivider() + "\nHello! I'm Jeenius\nWhat can I do for you today?\n" + getDivider();
     }
 
     /**
      * Prints the exit message when the application is terminated.
      */
-    public void printExitMessage() {
-        printLine();
-        System.out.println("Bye. Hope to see you again soon!");
-        printLine();
+    public String printExitMessage() {
+        return getDivider() + "\nBye. Hope to see you again soon!\n" + getDivider();
     }
 
     /**
      * Prints a horizontal line for formatting outputs.
      */
-    public void printLine() {
-        System.out.println("----------------------------------------");
+    public String getDivider() {
+        return "----------------------------------------";
     }
 
     /**
@@ -39,8 +34,8 @@ public class Ui {
      *
      * @param message The error message to be displayed.
      */
-    public void printError(String message) {
-        System.out.println(message);
+    public String printError(String message) {
+        return message;
     }
 
     /**
@@ -48,14 +43,15 @@ public class Ui {
      *
      * @param storage The list of tasks to be displayed.
      */
-    public void printTaskList(List<Task> storage) {
-        printLine();
-        System.out.println("Task List:");
-        for (int x = 0; x < storage.size(); x = x + 1) {
-            int num = x + 1;
-            Task input = storage.get(x);
-            System.out.println(num + "." + input.toString());
+    public String printTaskList(List<Task> storage) {
+        if (storage.isEmpty()) {
+            return "Your task list is empty!";
         }
-        printLine();
+        StringBuilder response = new StringBuilder(getDivider()).append("\nTask List:\n");
+        for (int i = 0; i < storage.size(); i++) {
+            response.append(i + 1).append(". ").append(storage.get(i)).append("\n");
+        }
+        response.append(getDivider());
+        return response.toString();
     }
 }

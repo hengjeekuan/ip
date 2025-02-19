@@ -79,7 +79,6 @@ public class Storage {
             for (Task task : tasks) {
                 writer.write(task.toFileFormat());
                 writer.newLine();
-                System.out.println("saved: " + task.getDescription());
             }
         } catch (IOException e) {
             throw new JeeniusException("error saving tasks to file.");

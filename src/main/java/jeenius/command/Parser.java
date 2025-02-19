@@ -23,6 +23,10 @@ public class Parser {
      * @throws JeeniusException If the user input is invalid or cannot be processed.
      */
     public void parse(String input, TaskList tasks, Ui ui, Storage storage) throws JeeniusException {
+        assert input != null : "User input should not be null";
+        assert tasks != null : "TaskList should not be null";
+        assert ui != null : "Ui should not be null";
+        assert storage != null : "Storage should not be null";
         if (input.trim().isEmpty()) {
             throw new JeeniusException("stop pressing enter without typing anything!");
         } else if (input.equalsIgnoreCase("bye")) {
@@ -42,6 +46,7 @@ public class Parser {
             try {
                 String[] parts = input.split(" ");
                 int taskNumber = Integer.parseInt(parts[1]) - 1;
+                assert taskNumber >= 0 && taskNumber < tasks.size() : "Task number is out of bounds: " + taskNumber;
                 Task task = tasks.getSize(taskNumber);
                 tasks.deleteTask(taskNumber);
                 storage.save(tasks.getTasks());
@@ -55,6 +60,7 @@ public class Parser {
             try {
                 String[] parts = input.split(" ", 2);
                 String[] details = parts[1].split(" /by ", 2);
+                assert details.length == 2 : "Invalid deadline format, expected: [task] /by [d/M/yyyy HHmm]";
                 Deadline deadline = new Deadline(details[0], details[1]);
                 tasks.addTask(deadline);
                 storage.save(tasks.getTasks());
@@ -70,6 +76,10 @@ public class Parser {
                 String[] parts = input.split(" ", 2);
                 String[] details = parts[1].split(" /from ", 2);
                 String[] times = details[1].split(" /to ", 2);
+                assert details.length == 2
+                        : "Invalid event format, expected: [description] /from [d/M/yyyy HHmm] /to [d/M/yyyy HHmm]";
+                assert times.length == 2
+                        : "Invalid event format, expected: [description] /from [d/M/yyyy HHmm] /to [d/M/yyyy HHmm]";
                 Event event = new Event(details[0], times[0], times[1]);
                 tasks.addTask(event);
                 storage.save(tasks.getTasks());
@@ -87,6 +97,7 @@ public class Parser {
                     throw new JeeniusException("Wrong format. Use: mark/unmark [task number]");
                 }
                 int taskNumber = Integer.parseInt(parts[1]) - 1;
+                assert taskNumber >= 0 && taskNumber < tasks.size() : "Task number is out of bounds: " + taskNumber;
                 boolean isMark = input.startsWith("mark");
 
                 Task task = tasks.getSize(taskNumber);
@@ -108,6 +119,7 @@ public class Parser {
                     throw new JeeniusException("bro what am i supposed to find? enter a keyword");
                 }
                 String keyword = parts[1];
+                assert keyword != null && !keyword.isEmpty() : "Search keyword must not be null or empty";
                 ui.printLine();
                 System.out.println("these are your matching tasks in your list:");
                 int index = 1;

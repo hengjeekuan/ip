@@ -27,6 +27,7 @@ public class Jeenius {
      * @param filePath The file path for storing tasks.
      */
     public Jeenius(String filePath) {
+        assert filepath != null && !filePath.isEmpty() : "File path must not be null or empty";
         this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.parser = new Parser();
@@ -38,6 +39,11 @@ public class Jeenius {
             loadedTasks = new TaskList(new ArrayList<Task>());
         }
         this.tasks = loadedTasks;
+
+        assert this.ui != null : "Ui instance should not be null";
+        assert this.storage != null : "Storage instance should not be null";
+        assert this.parser != null : "Parser instance should not be null";
+        assert this.tasks != null : "TaskList should not be null";
     }
 
     public Jeenius() {
@@ -48,12 +54,15 @@ public class Jeenius {
      * Runs the Jeenius application, processing user commands in a loop.
      */
     public void run() {
+        assert ui != null : "Ui should not be null before running";
+        assert parser != null : "Parser should not be null before running";
         ui.printWelcomeMessage();
         Scanner scanner = new Scanner(System.in);
         boolean isExit = false;
 
         while (!isExit) {
             String input = scanner.nextLine();
+            assert input != null : "User input should not be null";
             try {
                 parser.parse(input, tasks, ui, storage);
                 if (input.equalsIgnoreCase("bye")) {
@@ -77,6 +86,7 @@ public class Jeenius {
      * Generates a response for the user's chat message.
      */
     public String getResponse(String input) {
+        assert input != null : "User input should not be null";
         return "Duke heard: " + input;
     }
 

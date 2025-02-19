@@ -67,6 +67,7 @@ shadowJar {
     archiveFileName = "jeenius.jar"
 }
 
-run{
+run {
     standardInput = System.in
+    enableAssertions = true
 }

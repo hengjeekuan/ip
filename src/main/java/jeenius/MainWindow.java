@@ -19,6 +19,8 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;
     @FXML
     private Button sendButton;
+    @FXML
+    private Button sortButton;
 
     private Jeenius jeenius;
 
@@ -36,15 +38,11 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
-     * the dialog container. Clears the user input after processing.
+     * Handles user input when enter key is pressed or the send button is clicked.
      */
     @FXML
     private void handleUserInput() {
         String input = userInput.getText().trim();
-        if (input.isEmpty()) {
-            return;
-        }
         String response = jeenius.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
@@ -52,4 +50,13 @@ public class MainWindow extends AnchorPane {
         );
         userInput.clear();
     }
+    /**
+     * Handles sorting of tasks when sort button is clicked.
+     */
+    @FXML
+    private void handleSortButtonClick() {
+        String response = jeenius.getResponse("sort");
+        dialogContainer.getChildren().add(DialogBox.getJeeniusDialog(response, jeeniusImage));
+    }
+
 }

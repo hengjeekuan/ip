@@ -45,6 +45,8 @@ public class Parser {
             return handleMark(input, tasks, storage);
         } else if (input.startsWith("find")) {
             return handleFind(input, tasks, ui);
+        } else if (input.startsWith("sort")) {
+            return handleSort(tasks, ui);
         } else {
             throw new JeeniusException("sorry. i'm not that smart. i have limited available commands");
         }
@@ -160,5 +162,17 @@ public class Parser {
         } catch (Exception e) {
             throw new JeeniusException("finding is easy, just use: find [keyword]");
         }
+    }
+
+    /**
+     * Sorts the tasks according to deadline if task has a deadline or alphabetically if task doesn't have deadline.
+     *
+     * @param tasks Tasklist that stores all task
+     * @param ui The user interface for displaying messages.
+     * @return
+     */
+    public String handleSort(TaskList tasks, Ui ui) {
+        tasks.sortTasks();
+        return "tasks have been sorted";
     }
 }

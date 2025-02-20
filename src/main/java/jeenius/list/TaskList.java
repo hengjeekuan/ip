@@ -1,9 +1,14 @@
 package jeenius.list;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import jeenius.task.Deadline;
+import jeenius.task.Event;
 import jeenius.task.Task;
+import jeenius.task.ToDo;
 
 /**
  * Manages a list of tasks, providing operations to add, delete, and retrieve tasks.
@@ -69,5 +74,40 @@ public class TaskList {
         return tasks.size();
     }
 
+    /**
+     * Sorts the tasks in the task list based on their dates
+     */
+    public void sortTasks() {
+        Collections.sort(tasks, new Comparator<Task>() {
+            @Override
+            public int compare(Task t1, Task t2) {
+                if (t1 instanceof Deadline && t2 instanceof Deadline) {
+                    return ((Deadline) t1).getBy().compareTo(((Deadline) t2).getBy());
+                }
+                if (t1 instanceof Event && t2 instanceof Event) {
+                    int startComparison = ((Event) t1).getFrom().compareTo(((Event) t2).getFrom());
+                    if (startComparison != 0) {
+                        return startComparison;
+                    }
+                    return ((Event) t1).getTo().compareTo(((Event) t2).getTo());
+                }
+                if (t1 instanceof Deadline && t2 instanceof Event) {
+                    int result =  ((Deadline) t1).getBy().compareTo(((Event) t2).getFrom());
+                    return result != 0 ? result : -1;
+                }
+                if (t1 instanceof Event && t2 instanceof Deadline) {
+                    int result = ((Event) t1).getFrom().compareTo(((Deadline) t2).getBy());
+                    return result != 0 ? result : 1;
+                }
 
+                if (t1 instanceof ToDo && !(t2 instanceof ToDo)) {
+                    return 1;
+                }
+                if (t2 instanceof ToDo && !(t1 instanceof ToDo)) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
+    }
 }

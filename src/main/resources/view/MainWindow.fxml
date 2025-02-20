@@ -6,26 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.HBox?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jeenius.MainWindow">
+
     <children>
-        <VBox fx:id="mainContainer" spacing="10" prefWidth="400.0" prefHeight="600.0">
-            <!-- Sort Button inside the VBox -->
-            <Button fx:id="sortButton" text="Sort" onAction="#handleSortButtonClick" />
+        <Button fx:id="sortButton" layoutX="10" layoutY="10" onAction="#handleSortButtonClick" prefWidth="60.0" text="Sort" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
 
-            <!-- ScrollPane for dialog messages -->
-            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" vvalue="1.0" prefHeight="500.0" prefWidth="400.0">
-                <content>
-                    <VBox fx:id="dialogContainer" prefHeight="500.0" prefWidth="388.0" />
-                </content>
-            </ScrollPane>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" layoutX="10" layoutY="50" prefHeight="500.0" prefWidth="380.0" vvalue="1.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+            <content>
+                <VBox fx:id="dialogContainer" prefHeight="500.0" prefWidth="360.0" />
+            </content>
+        </ScrollPane>
 
-            <!-- User input and send button -->
-            <HBox spacing="5">
-                <TextField fx:id="userInput" onAction="#handleUserInput" prefHeight="41.0" prefWidth="324.0"
-                           promptText="Click here to type something..." />
-                <Button fx:id="sendButton" text="Send" onAction="#handleUserInput" prefHeight="41.0" prefWidth="76.0" />
-            </HBox>
-        </VBox>
+        <TextField fx:id="userInput" layoutX="10" layoutY="560" onAction="#handleUserInput" prefHeight="30.0" prefWidth="300.0" promptText="Click here to type something..." AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="90.0" />
+
+        <Button fx:id="sendButton" layoutX="320" layoutY="560" onAction="#handleUserInput" prefHeight="30.0" prefWidth="70.0" text="Send" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
     </children>
 </AnchorPane>
